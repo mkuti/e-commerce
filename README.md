@@ -152,4 +152,21 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 8. check main html structure in cart.html
 9. add div outside loop for the total shown and the button to checkout
 10. using glyphicon classes from bootstrap for small icon on buttons
-11. 
+
+## SEARCH 
+1. django-admin startapp search
+2. add search app in INSTALLED_APPS
+3. in views.py, from products.models import Product
+4. create function call do_search
+5. products = Product.objects.filter(name__icontains=request.get[q])
+>> will get whatever 'q' is returned from the form, so we'll give the form a name of 'q'
+>> whatever typed into form will be used to filter the products
+6. return render(request, 'products.html', {'products': products})
+7. create base url named 'search'
+8. link up to top-level urls under urls_search
+10. in base.html, change title and heading to ecommerce
+11. Add stylesheet link for font-awesome
+11. add cart icon on the navbar with font-awesome icons and label to show product_count if above 0, with badges classes
+12. add search form above block content with action to search url, method is get, and name of input is 'q'
+13. add button inside the form to submit the search
+14. in settings.py, add STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'))
