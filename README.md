@@ -112,13 +112,15 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 14. return a dictionary {'cart_items: cart_items, 'total': total, 'product_count: product_count}
 
 15. in settings.py, add 'cart.contexts.cart_contents' in TEMPLATES 
+>> allow to have the context file always available on all templates
+>> no need to pass them in views
 
 16. create urls.py inside cart app
 17. from django.conf.urls import url, include
 18. from .views import view_cart, add_to_cart, adjust_cart
 19. create base url to view cart
-20. create url to add cart which takes product id added to the path: add/id
-21. create url to adjust cart which also takes product id added to the path: adjust/id
+20. create url to add cart which takes product id added to the path: cart/add/id
+21. create url to adjust cart which also takes product id added to the path: cart/adjust/id
 
 22. in views.py, add redirect and reverse to list of import from django.shortcuts
 23. create basic function to render cart contents
@@ -138,3 +140,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 35. add urls_cart to top-level urls
 
+## CART WEBPAGE HTML 
+1. create template in cart app
+2. add cart.html inside
+3. {% extends 'base.html' %}
+4. {% load static from staticfiles %}
+>> allows us access to anything in our static directory, so, for example, CSS, JavaScript, fonts, or anything we wish
+5. {% block content %}
+6. div of class row and row-flex
+7. {% for item in cart_items %}
