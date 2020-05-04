@@ -149,3 +149,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 5. {% block content %}
 6. div of class row and row-flex
 7. {% for item in cart_items %}
+8. check main html structure in cart.html
+9. add div outside loop for the total shown and the button to checkout
+10. using glyphicon classes from bootstrap for small icon on buttons
+11. 
