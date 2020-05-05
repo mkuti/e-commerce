@@ -212,4 +212,23 @@ STRIPE_SECRET = os.getenv('STRIPE_SECRET')
 5. Create an order form based on the model previously created
 
 ## CHECKOUT VIEWS 
+1. in views.py, do all following imports
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from products.models import Product
+from .forms import MakePaymentForm, OrderForm
+from .models import OrderLineItem
+from django.conf import settings
+from django.utils import timezone
+import stripe
+2. stripe_api_key = settings.STRIPE_SECRET
+3. @login_required before the function to only allow customers here when logged in
+4. all following described in comment of views.py
 
+## CHECKOUT URLS AND HTML
+1. Create new urls.py file inside checkout app
+2. from django.conf.urls import url
+3. from .views import check_out
+4. base url which is wired up with check_out view and with name check_out
+5. add checkout urls to top-level urls
+6. create new html template for checkout inside new folder called templates
