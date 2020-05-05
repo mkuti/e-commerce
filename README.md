@@ -170,3 +170,35 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 12. add search form above block content with action to search url, method is get, and name of input is 'q'
 13. add button inside the form to submit the search
 14. in settings.py, add STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'))
+
+## STRIPE API
+1. pip3 install stripe 
+2. go to stripe.com 
+3. Start account
+4. Go to test api keys
+5. click on eye next to secret key to reveal the key
+6. copy the key
+7. in settings.py at the bottom, add STRIPE_PUBLISHABLE = os.getenv('STRIPE_PUBLISHABLE')
+STRIPE_SECRET = os.getenv('STRIPE_SECRET')
+8. create new file env.py at root level
+9. import os
+10. os.environ.setdefault('STRIPE_PUBLISHABLE', '')
+11. same for STRIPE_SECRET
+12. add env.py into .gitignore: echo env.py >> .gitignore
+13. import env inside settings
+
+## CREATE CHECKOUT APP
+1. django-admin startapp checkout
+2. add checkout app to settings.py INSTALLED_APPS
+3. go to models.py
+4. from products.models import Product
+5. create class Order(models.Model):
+6. full_name, phone_number, country, postcode, town_or_city, street_address1, street_address2, county, date
+7. all use CharField and set blank=False which means the field cannot be left blank
+8. use DateField() for date
+9. see follow up in checkout/models.py
+10. add new models inside admin.py of the app > so we can edit them via admin panel
+11. admin.site.register(Order, OrderAdmin)
+12. 2 classes created for some reason 
+13. python3 manage.py makemigrations checkout
+14. python3 manage.py migrate checkout
