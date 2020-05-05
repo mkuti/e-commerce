@@ -198,7 +198,18 @@ STRIPE_SECRET = os.getenv('STRIPE_SECRET')
 8. use DateField() for date
 9. see follow up in checkout/models.py
 10. add new models inside admin.py of the app > so we can edit them via admin panel
+11. from .models import Order, OrderLineItem
 11. admin.site.register(Order, OrderAdmin)
 12. 2 classes created for some reason 
 13. python3 manage.py makemigrations checkout
 14. python3 manage.py migrate checkout
+
+## CHECKOUT FORMS 
+1. Create forms.py inside checkout app
+2. from django import forms
+3. from .models import Order
+4. Create a Payment form
+5. Create an order form based on the model previously created
+
+## CHECKOUT VIEWS 
+
