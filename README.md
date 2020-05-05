@@ -232,3 +232,6 @@ import stripe
 4. base url which is wired up with check_out view and with name check_out
 5. add checkout urls to top-level urls
 6. create new html template for checkout inside new folder called templates
+7. Add {% block head_js %} {% endblock head_js %} below scripts inside base.html 
+8. Add {% extends 'base.html' %}, {% load static from staticfiles %}, {% load bootstrap_tags %}
+9. {% block head_js %} {% endblock head_js%}
