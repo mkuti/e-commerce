@@ -245,3 +245,11 @@ import stripe
 >> to set the stripe publishable key
 12. add <script type="text/javascript" src=" {% static 'js/stripe.js' %} "></script>
 >> will create file afterwards
+13. added same html as cart to display product within the loop for item in cart_items
+14. below show total
+15. add a form within which we'll display the legend called payment details
+16. before the actual form, a space for messages to display messages after payment submitted
+17. using |as_bootstrap, integrate order_form and payment_form
+18. add a button to submit the payment
+
+##
