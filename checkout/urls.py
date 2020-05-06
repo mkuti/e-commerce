@@ -1,6 +1,6 @@
 from django.conf.urls import url
-from .views import check_out
+from .views import checkout
 
 urlpatterns = [
-    url(r'^$', check_out, name=check_out),
+    url(r'^$', checkout, name='checkout'),
 ]

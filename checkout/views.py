@@ -12,7 +12,7 @@ stripe.api_key = settings.STRIPE_SECRET
 
 
 @login_required
-def check_out(request):
+def checkout(request):
     '''
     User given the order and payment forms to fill out with GET method.
     If method is POST, review forms information
@@ -22,14 +22,14 @@ def check_out(request):
     One line item to resume the order which we save
     Try except will create customer charge using Stripe built-in API
     '''
-    if request.method == 'POST':
+    if request.method == "POST":
         order_form = OrderForm(request.POST)
         payment_form = MakePaymentForm(request.POST)
 
         if order_form.is_valid() and payment_form.is_valid():
             order = order_form.save(commit=False)
             order.date = timezone.now()
-            order.save
+            order.save()
 
             cart = request.session.get('cart', {})
             total = 0
@@ -47,10 +47,10 @@ def check_out(request):
                 customer = stripe.Charge.create(
                     # total multiplied by 100 as Stripe uses cents
                     amount=int(total * 100),
-                    currency='EUR',
+                    currency="EUR",
                     # who the payment came from on Stripe dashboard
                     description=request.user.email,
-                    card=payment_form.cleaned_data['stripe_id'],
+                    card=payment_form.cleaned_data['stripe_id']
                 )
             except stripe.error.CardError:
                 messages.error(request, 'Your card was declined!')
@@ -70,6 +70,6 @@ def check_out(request):
         order_form = OrderForm()
 
     return render(request, 'checkout.html', {
-        order_form: order_form,
+        'order_form': order_form,
         'payment_form': payment_form,
         'publishable': settings.STRIPE_PUBLISHABLE})

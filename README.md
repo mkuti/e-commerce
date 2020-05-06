@@ -232,6 +232,16 @@ import stripe
 4. base url which is wired up with check_out view and with name check_out
 5. add checkout urls to top-level urls
 6. create new html template for checkout inside new folder called templates
-7. Add {% block head_js %} {% endblock head_js %} below scripts inside base.html 
+7. Add {% block head_js %} {% endblock head_js %} below scripts inside base.html so that js script from checkout will only be injected into base.html when user click on checkout
 8. Add {% extends 'base.html' %}, {% load static from staticfiles %}, {% load bootstrap_tags %}
-9. {% block head_js %} {% endblock head_js%}
+9. {% block head_js %} {% endblock %}
+10. in that block, add <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+>> direct link to Stripe js
+11. add the. <script type="text/javascript">
+    //<![CDATA[
+        Stripe.publishableKey = '{{ publishable }}';
+        //]]>
+</script>
+>> to set the stripe publishable key
+12. add <script type="text/javascript" src=" {% static 'js/stripe.js' %} "></script>
+>> will create file afterwards
