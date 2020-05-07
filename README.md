@@ -252,4 +252,19 @@ import stripe
 17. using |as_bootstrap, integrate order_form and payment_form
 18. add a button to submit the payment
 
-##
+## CREATE HEROKU APP
+1. add os.environ.setdefault('SECRET_KEY', 'secret-key-here') in env.py
+2. in settings.py, add >> SECRET_KEY = os.environ.get('SECRET_KEY')
+3. Create app in Europe on heroku dashboard
+4. Add add-ons, Heroku Postgres database
+5. Add SECRET_KEY environment variable on heroku settings
+6. On terminal, pip3 install dj-database-url psycopg2
+7. pip3 freeze > requirements.txt
+8. Update settings.py to use new database url
+9. comment out default databases
+10. add DATABASES = {'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))}
+11. import dj_database_url
+12. Add database url in env.py for running app locally, copy and paste database_url from heroku
+13. os.environ.setdefault('DATABASE_URL', 'add_database_url_here')
+14. python3 manage.py migrate to move all tables to new heroku database
+15. python3 manage.py createsuperuser
