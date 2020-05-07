@@ -268,3 +268,88 @@ import stripe
 13. os.environ.setdefault('DATABASE_URL', 'add_database_url_here')
 14. python3 manage.py migrate to move all tables to new heroku database
 15. python3 manage.py createsuperuser
+
+## USE AWS S3
+1. Once on AWS dashboard, search for S3 
+2. Buckets are the fundamental container in Amazon S3 for data storage.
+3. Create a bucket 
+>> makes it public for the purpose of using the bucket to host a static website
+4. go to properties
+5. go to static website hosting
+6. tick use this bucket to host a website
+7. add index.html in index and error.html for error
+8. save
+9. go to permissions
+10. go to CORS configuration and add
+<CORSConfiguration>
+<CORSRule>
+<AllowedOrigin>*</AllowedOrigin>
+<AllowedMethod>GET</AllowedMethod>
+<MaxAgeSeconds>3000</MaxAgeSeconds>
+<AllowedHeader>Authorization</AllowedHeader>
+</CORSRule>
+</CORSConfiguration>
+11. go to policy
+>>  bucket policy is what allows access to the contents of a bucket from any website across the web
+12. add {
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "PublicReadGetObject",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::mapi-ecommerce/*"
+            ]
+        }
+    ]
+}
+13. search in AWS dashboard or services tab for IAM 
+>> Identity and Access Management to manage who access our AWS
+14. on IAM dashboard, go to groups
+15. create a group called mapi-ecommerce-group
+16. click next twice and create group
+17. go to policies of IAM and create one
+>> A policy defines the AWS permissions that you can assign to a user, group, or role. You can create and edit a policy in the visual editor and using JSON. 
+18. import managed policy, search for S3 and import S3FullAccess
+19. in JSON file, add ["arn:aws:s3:::mapi-ecommerce", "arn:aws:s3:::mapi-ecommerce/*"] inside resource
+20. click on review policy
+21. give a name and create policy
+22. go back to groups and open the group created before
+23. go to permissions and attach policy just created
+24. go to users and create a user called mapi-ecommerce-user
+25. give programmatic access
+26. add permissions of the group
+27. click on next twice and create
+28. download csv file
+>> This is the access keys that you will need in your software. It's important to keep them safe. You'll never be able to generate them again. So if you lose them you would have to delete the user and create a new user with new access keys.
+29. click done 
+30. go back to S3 and try to upload an image
+31. after uploading, if we click on image, we can see the object url accessible from anywhere in the web
+
+## LINK S3 TO DJANGO 
+1. pip3 install django-storages
+2. pip2 install boto3
+3. add storages as INSTALLED_APPS in settings.py 
+4. at the bottom before STATIC, add following
+AWS_S3_OBJECT_PARAMETERS = {
+    'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
+    'CacheControl': 'max-age=94608000'
+}
+>> Static files tend not to change that many things, like CSS, so browsers will often cache them.
+So the first thing that we're going to add in here is just something to allow boto to know that it can cache the static files.So we're putting in an expiry date here.
+5. after that, add following
+AWS_STORAGE_BUCKET_NAME = 'name-bucket'
+AWS_S3_REGION_NAME = 'eu-west-1'
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+6. add following in env.py
+os.environ.setdefault('AWS_ACCESS_KEY_ID', 'id_here')
+os.environ.setdefault('AWS_SECRET_ACCESS_KEY', 'secret_key_here')
