@@ -377,4 +377,6 @@ DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
 12. in CORS configuration of S3 Bucket, add <AllowedMethod>HEAD</AllowedMethod> below the normal <AllowedMethod>GET</AllowedMethod>
 13. change MEDIA_URL = '/media/' to "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
 
-## ADDING FONTAWESOME ICONS 
+
+add static/, media/, *.png to .gitignore
+
