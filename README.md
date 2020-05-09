@@ -394,3 +394,10 @@ python:
 install: "pip install -r requirements.txt"
 script:
 - SECRET_KEY="whatever" ./manage.py test
+7. after testing, > some errors
+8. changed version of pillow to latest version known to travis
+9. comment out env inside settings.py as running it from heroku in production
+10. Travis testing wont know the database url
+11. if 'DATABASE_URL' in os.environ: > >> use Heroku database stored in env.py
+12 else, use sqlite3 database, copy the commented out DATABASES before
+>> if DATABASE_URL is in our environment, then we use it, if not, then we use SQLite instead which is already uploaded to github
