@@ -382,7 +382,7 @@ DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
 
 add static/, media/, *.png to .gitignore
 
-## SET UP TRAVIS CONTINUATION
+## SET UP TRAVIS INTEGRATION
 1. click + next to current repository
 2. click on switch to link up to new repository
 3. go to build unknown, change format to markdown and copy text for README
@@ -401,3 +401,17 @@ script:
 11. if 'DATABASE_URL' in os.environ: > >> use Heroku database stored in env.py
 12 else, use sqlite3 database, copy the commented out DATABASES before
 >> if DATABASE_URL is in our environment, then we use it, if not, then we use SQLite instead which is already uploaded to github
+
+## DEPLOY TO HEROKU
+1. add all env variables to Heroku app
+2. Link to GitHub repository
+3. pip3 install gunicorn
+>> package required to connect Django to Heroku
+4. pip3 freeze > requirements.txt
+5. create Procfile file in root level
+6. add this inside: web: gunicorn ecommerce.wsgi:application
+>> Procfile tells Heroku what type of app it's getting
+WSGI > how heroku knows it's a Django app
+7. add DISABLE_COLLECTSTATIC = 1 to env variables in Heroku
+8. deploy branch in Heroku
+9. add heroku url to ALLOWED_HOSTS
