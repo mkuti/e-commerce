@@ -353,3 +353,28 @@ STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 6. add following in env.py
 os.environ.setdefault('AWS_ACCESS_KEY_ID', 'id_here')
 os.environ.setdefault('AWS_SECRET_ACCESS_KEY', 'secret_key_here')
+>> These keys are particularly important to keep secret because if somebody got hold of these, they could put terabytes worth of data through your S3 bucket at your expense.
+7. python3 manage.py collectstatic
+
+## ADDING MEDIA TO S3 
+>> Enables S3 bucket subdirectories
+>> Moves static files into their own subdirectory and changes standard image file storage to a S3 bucket subdirectory
+>> Static content in one directory in S3 and media content, such as product images, on another.
+1. Create new file at root level called custom_storages.py
+2. from django.conf import settings
+3. from storages.backends.s3boto3 import S3Boto3Storage
+4. create class inheriting S3Boto3Storage
+5. inside class, declare location = settings.STATICFILES_LOCATION
+6. in settings.py, STATICFILES_LOCATION = 'static'
+>> anything in a directory called static, which is our static files, will be part of that class
+7. in settings.py, also change STATICFILES_STORAGE = 'custom_storages.StaticStorage', class just created
+8. python3 manage.py collectstatic
+>> collect all static again, copying them and putting them into static directory of S3 bucket
+9. copy class for static storage and do the same for media storage to create a different directory
+10. change new class to MediaStorage
+11. in settings.py, add MEDIAFILES_LOCATION = 'media'
+DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
+12. in CORS configuration of S3 Bucket, add <AllowedMethod>HEAD</AllowedMethod> below the normal <AllowedMethod>GET</AllowedMethod>
+13. change MEDIA_URL = '/media/' to "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
+
+## ADDING FONTAWESOME ICONS 
