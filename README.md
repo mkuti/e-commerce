@@ -4,6 +4,8 @@ An e-commerce website using Python as a language, Stripe too to allow both priva
 
 The website will display products, search for products, place products in a cart, register users and purchase products with a credit or debit card
 
+[![Build Status](https://travis-ci.org/mkuti/e-commerce.svg?branch=master)](https://travis-ci.org/mkuti/e-commerce)
+
 ## START PROJECT
 1. pip3 install django==1.11.29
 2. pip3 freeze > requirements.txt
@@ -380,3 +382,15 @@ DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
 
 add static/, media/, *.png to .gitignore
 
+## SET UP TRAVIS CONTINUATION
+1. click + next to current repository
+2. click on switch to link up to new repository
+3. go to build unknown, change format to markdown and copy text for README
+4. paste it inside README
+5. at root level, create new file called .travis.yml
+6. add language: python
+python:
+- "3.4"
+install: "pip install -r requirements.txt"
+script:
+- SECRET_KEY="whatever" ./manage.py test
